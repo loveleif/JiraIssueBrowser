@@ -1,0 +1,7 @@
+﻿<!-- Fill out the fields in this file and rename it to jira_account.xml -->
+<?xml version="1.0" encoding="utf-8" ?>
+<JiraAccount>
+  <ServerUrl><!-- Replace this comment with the Jira server url, for example https://example.atlassian.net --></ServerUrl>
+  <User><!-- Replace this comment with the Jira server user name --></User>
+  <Password><!-- Replace this comment with the Jira server password --></Password>
+</JiraAccount>
