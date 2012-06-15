@@ -1,0 +1,33 @@
+﻿@model AnotherJiraRestClient.Issues
+@{
+    ViewBag.Title = "Index";
+}
+
+<table border="0">
+<tr>
+    <th>
+        Key
+    </th>
+    <th>
+        Status
+    </th>
+    <th>
+        Summary
+    </th>
+</tr>
+
+
+@foreach (var issue in Model.issues) {
+    <tr>
+        <td>
+            @issue.key
+        </td>
+        <td>
+            @issue.fields.status.name
+        </td>
+        <td>
+            @issue.fields.summary
+        </td>
+    </tr>
+}
+</table>
