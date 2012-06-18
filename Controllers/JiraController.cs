@@ -28,7 +28,7 @@ namespace JiraIssueBrowser.Controllers
             var client = new JiraClient(account);
             var issues = client.GetIssuesByProject("TES");
             
-            var issue = client.GetIssue("TES-1", new string[] {IssueFieldNames.SUMMARY, IssueFieldNames.STATUS});
+            var issue = client.GetIssue("TES-1", new string[] {Issue.FIELD_SUMMARY, Issue.FIELD_STATUS});
 
             ViewBag.Test = issue.fields.summary + " | " + issue.fields.status.name + " | " + issue.fields.timeestimate;
 
