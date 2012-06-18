@@ -23,9 +23,14 @@ namespace JiraIssueBrowser.Controllers
             FileStream stream = new FileStream(
                 Server.MapPath("~/jira_account.xml"), FileMode.Open);
             var account = (JiraAccount) serializer.Deserialize(stream);
+            stream.Close();
 
             var client = new JiraClient(account);
             var issues = client.GetIssuesByProject("TES");
+            
+            var issue = client.GetIssue("TES-1", new string[] {IssueFieldNames.SUMMARY, IssueFieldNames.STATUS});
+
+            ViewBag.Test = issue.fields.summary + " | " + issue.fields.status.name + " | " + issue.fields.timeestimate;
 
             return View(issues);
         }
