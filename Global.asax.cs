@@ -21,12 +21,14 @@ namespace JiraIssueBrowser
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // RESTful path to view list of Issues
             routes.MapRoute(
                 "Jira Issues",
                 "jira/issues",
                 new { controller = "Jira", action = "Issues", id = UrlParameter.Optional }
             );
 
+            // RESTful path to view a single issue
             routes.MapRoute(
                 "Jira Issue",
                 "jira/issues/{key}",

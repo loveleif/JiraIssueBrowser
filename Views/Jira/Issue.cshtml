@@ -3,4 +3,27 @@
     ViewBag.Title = "Issue";
 }
 
-<h2>@Model.key</h2>
+<h2>@Model.fields.summary</h2>
+<table>
+<tr>
+<td>Rapporterat av:</td><td>@Model.fields.reporter.displayName (ändra till custom field) </td>
+</tr>
+<tr>
+<td>Skapat:</td><td>@Model.fields.created </td>
+</tr>
+<tr>
+<td>Status:</td><td>@Model.fields.status.name </td>
+</tr>
+<tr>
+<td>Prioritet:</td><td>@Model.fields.priority.name </td>
+</tr>
+<tr>
+<td>Tidsåtgång:</td><td>@Model.fields.timeestimate </td>
+</tr>
+<tr>
+<td>Levererad:</td><td>@Model.fields.resolution (@Model.fields.resolutiondate) </td>
+</tr>
+</table>
+
+<h3>Beskrivning</h3>
+@Model.fields.description

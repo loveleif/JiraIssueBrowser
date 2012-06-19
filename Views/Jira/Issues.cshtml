@@ -32,7 +32,7 @@ Bla bla bla
     <div class="wrapper">
 
       <h3>
-        <a href="link_to_details">@issue.fields.summary</a>
+        <a href="@Url.Action("Issue", new { key = issue.key })">@issue.fields.summary</a>
       </h3>
 
 

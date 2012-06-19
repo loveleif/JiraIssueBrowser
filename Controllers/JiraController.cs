@@ -50,6 +50,12 @@ namespace JiraIssueBrowser.Controllers
             var client = new JiraClient(account);
             var issue = client.GetIssue(key, new string[] { 
                 AnotherJiraRestClient.Issue.FIELD_SUMMARY, 
+                AnotherJiraRestClient.Issue.FIELD_CREATED,
+                AnotherJiraRestClient.Issue.FIELD_REPORTER,
+                AnotherJiraRestClient.Issue.FIELD_PRIORITY, 
+                AnotherJiraRestClient.Issue.FIELD_TIMEESTIMATE,
+                AnotherJiraRestClient.Issue.FIELD_RESOLUTION, 
+                AnotherJiraRestClient.Issue.FIELD_RESOLUTIONDATE,
                 AnotherJiraRestClient.Issue.FIELD_STATUS, 
                 AnotherJiraRestClient.Issue.FIELD_DESCRIPTION, 
                 AnotherJiraRestClient.Issue.FIELD_ASSIGNEE });
