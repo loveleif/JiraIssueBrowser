@@ -21,7 +21,7 @@ namespace JiraIssueBrowser.Controllers
             var serializer = new XmlSerializer(typeof(JiraAccount));
             // TODO: Put file name in variable?
             FileStream stream = new FileStream(
-                Server.MapPath("~/jira_account.xml"), FileMode.Open);
+                Server.MapPath("~/App_Data/jira_account.xml"), FileMode.Open);
             var account = (JiraAccount) serializer.Deserialize(stream);
             stream.Close();
 
@@ -43,7 +43,7 @@ namespace JiraIssueBrowser.Controllers
             var serializer = new XmlSerializer(typeof(JiraAccount));
             // TODO: Put file name in variable?
             FileStream stream = new FileStream(
-                Server.MapPath("~/jira_account.xml"), FileMode.Open);
+                Server.MapPath("~/App_Data/jira_account.xml"), FileMode.Open);
             var account = (JiraAccount)serializer.Deserialize(stream);
             stream.Close();
 
