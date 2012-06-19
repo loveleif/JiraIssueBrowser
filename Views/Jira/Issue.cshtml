@@ -26,4 +26,4 @@
 </table>
 
 <h3>Beskrivning</h3>
-@Model.fields.description
+@Html.Raw(Model.fields.description.Replace(Environment.NewLine, "<br />"))
