@@ -1,0 +1,25 @@
+
+
+.issue.odd {
+    background-color: #F9F9F9;
+}
+
+p {
+margin: -2px 0 0 0;
+font-size: 11px;
+font-weight: 200;
+}
+
+.filterhead {
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    position: relative;
+    height: 30px;
+    background: #C1D2E7;
+    /*
+    background: -moz-linear-gradient( #EFEFEF, #CACACA );
+    background: -webkit-linear-gradient( #EFEFEF, #CACACA);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#efefef',endColorstr='#cacaca')";
+    */
+    border-bottom: 1px solid #B4B4B4;
+}

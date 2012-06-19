@@ -1,33 +1,47 @@
 ﻿@model AnotherJiraRestClient.Issues
+
+@section AddToHead{
+    <link href="@Url.Content("~/Content/test1.css")" rel="stylesheet" type="text/css" />
+}           
+
 @{
     ViewBag.Title = "Index";
 }
 
-<table border="0">
-<tr>
-    <th>
-        Key
-    </th>
-    <th>
-        Status
-    </th>
-    <th>
-        Summary
-    </th>
-</tr>
+<div class="filterhead">
+Bla bla bla
+</div>
 
-
+<div>
+<table class="table table-striped">
+@{ var odd = true; }
 @foreach (var issue in Model.issues) {
-    <tr>
-        <td>
-            @issue.key
-        </td>
-        <td>
-            @issue.fields.status.name
-        </td>
-        <td>
-            @issue.fields.summary
-        </td>
-    </tr>
+
+<tr id="issue_3882" class="issue @(odd ? "odd": "even")">
+  <td class="read-status">
+    <div class="wrapper">
+      <span title="Unread" class="mini-icon mini-icon-mail-status unread"></span>
+    </div>
+  </td>
+
+  <td class="number">
+    @issue.key
+  </td>
+
+  <td class="info">
+    <div class="wrapper">
+
+      <h3>
+        <a href="link_to_details">@issue.fields.summary</a>
+      </h3>
+
+
+      <p>current assignee <strong><a href="/temp">@issue.fields.assignee.name</a></strong>
+      <time datetime="2012-06-19T01:46:17-07:00" title="2012-06-19 01:46:17">June 19, 2012</time></p>
+    </div>
+  </td>
+</tr>
+odd = !odd;
 }
 </table>
+</div>

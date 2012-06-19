@@ -26,7 +26,7 @@ namespace JiraIssueBrowser.Controllers
             stream.Close();
 
             var client = new JiraClient(account);
-            var issues = client.GetIssuesByProject("TES", new string[] { Issue.FIELD_SUMMARY, Issue.FIELD_STATUS });
+            var issues = client.GetIssuesByProject("TES", new string[] { Issue.FIELD_SUMMARY, Issue.FIELD_STATUS, Issue.FIELD_DESCRIPTION, Issue.FIELD_ASSIGNEE });
 
             return View(issues);
         }
