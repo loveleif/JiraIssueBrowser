@@ -161,7 +161,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Jira\Index.cshtml" />
+    <Content Include="Views\Jira\Issues.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AnotherJiraRestClient\AnotherJiraRestClient.csproj">

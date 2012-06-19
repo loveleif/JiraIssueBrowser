@@ -15,7 +15,7 @@ namespace JiraIssueBrowser.Controllers
         //
         // GET: /Jira/
 
-        public ActionResult Index()
+        public ActionResult Issues()
         {
             // Load JiraAccount from xml
             var serializer = new XmlSerializer(typeof(JiraAccount));
