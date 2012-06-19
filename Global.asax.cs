@@ -22,6 +22,18 @@ namespace JiraIssueBrowser
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                "Jira Issues",
+                "jira/issues",
+                new { controller = "Jira", action = "Issues", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                "Jira Issue",
+                "jira/issues/{key}",
+                new { controller = "Jira", action = "Issue", key = UrlParameter.Optional }
+);
+
+            routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
