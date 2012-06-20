@@ -12,16 +12,18 @@
 Bla bla bla
 </div>
 
-<div>
-<table class="table table-striped">
+<div class="issues">
+<table>
 @{ var odd = true; }
 @foreach (var issue in Model.issues) {
 
 <tr id="issue_3882" class="issue @(odd ? "odd": "even")">
-  <td class="read-status">
-    <div class="wrapper">
-      <span title="Unread" class="mini-icon mini-icon-mail-status unread"></span>
-    </div>
+  <td class="issue-status">
+      <img class="issue-status" src="@issue.fields.status.iconUrl" alt="@issue.fields.status.name" />
+  </td>
+
+  <td class="issue-priority">
+      <img class="issue-priority" src="@issue.fields.priority.iconUrl" alt="@issue.fields.priority.name" />
   </td>
 
   <td class="number">
@@ -36,8 +38,7 @@ Bla bla bla
       </h3>
 
 
-      <p>current assignee <strong><a href="/temp">@issue.fields.assignee.name</a></strong>
-      <time datetime="2012-06-19T01:46:17-07:00" title="2012-06-19 01:46:17">June 19, 2012</time></p>
+      <p>rapporterat av <strong>@issue.fields.assignee.name</strong> för 3 dagar sedan</p>
     </div>
   </td>
 </tr>

@@ -30,6 +30,7 @@ namespace JiraIssueBrowser.Controllers
                 AnotherJiraRestClient.Issue.FIELD_SUMMARY, 
                 AnotherJiraRestClient.Issue.FIELD_STATUS, 
                 AnotherJiraRestClient.Issue.FIELD_DESCRIPTION, 
+                AnotherJiraRestClient.Issue.FIELD_PRIORITY,
                 AnotherJiraRestClient.Issue.FIELD_ASSIGNEE });
 
             return View(issues);
@@ -51,6 +52,7 @@ namespace JiraIssueBrowser.Controllers
             var issue = client.GetIssue(key, new string[] { 
                 AnotherJiraRestClient.Issue.FIELD_SUMMARY, 
                 AnotherJiraRestClient.Issue.FIELD_CREATED,
+                AnotherJiraRestClient.Issue.FIELD_LABELS,
                 AnotherJiraRestClient.Issue.FIELD_REPORTER,
                 AnotherJiraRestClient.Issue.FIELD_PRIORITY, 
                 AnotherJiraRestClient.Issue.FIELD_TIMEESTIMATE,

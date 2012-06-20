@@ -1,4 +1,9 @@
 ﻿@model AnotherJiraRestClient.Issue
+
+@section AddToHead{
+    <link href="@Url.Content("~/Content/test1.css")" rel="stylesheet" type="text/css" />
+}     
+
 @{
     ViewBag.Title = "Issue";
 }
@@ -16,6 +21,14 @@
 </tr>
 <tr>
 <td>Prioritet:</td><td>@Model.fields.priority.name </td>
+</tr>
+<tr>
+<td>Labels:</td><td>
+@foreach (var label in Model.fields.labels)
+{
+    <span class="label">@label</span>
+}
+</td>
 </tr>
 <tr>
 <td>Tidsåtgång:</td><td>@Model.fields.timeestimate </td>
