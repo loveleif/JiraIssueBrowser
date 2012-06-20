@@ -17,10 +17,10 @@
 <td>Skapat:</td><td>@Model.fields.created </td>
 </tr>
 <tr>
-<td>Status:</td><td>@Model.fields.status.name </td>
+<td>Status:</td><td><img class="issue-status" src="@Model.fields.status.iconUrl" alt="@Model.fields.status.name" /> @Model.fields.status.name </td>
 </tr>
 <tr>
-<td>Prioritet:</td><td>@Model.fields.priority.name </td>
+<td>Prioritet:</td><td><img class="issue-priority" src="@Model.fields.priority.iconUrl" alt="@Model.fields.priority.name" /> @Model.fields.priority.name </td>
 </tr>
 <tr>
 <td>Labels:</td><td>
