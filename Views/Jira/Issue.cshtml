@@ -8,23 +8,24 @@
     ViewBag.Title = "Issue";
 }
 
+<div style="width: 600px">
 <h2>@Model.fields.summary</h2>
 <h3>Detaljer</h3>
-<table>
-<tr>
+<table class="issue-details">
+<tr class="issue-details">
 <td>Rapporterat av:</td><td>@Model.fields.reporter.displayName (ändra till custom field) </td>
 </tr>
-<tr>
+<tr class="issue-details">
 @{ var created = DateTime.Parse(Model.fields.created); }
 <td>Skapat:</td><td>@created.ToLongDateString() @created.ToShortTimeString()</td>
 </tr>
-<tr>
+<tr class="issue-details">
 <td>Status:</td><td><img class="issue-status" src="@Model.fields.status.iconUrl" alt="@Model.fields.status.name" /> @Model.fields.status.name </td>
-</tr>
-<tr>
+</tr class="issue-details">
+<tr class="issue-details">
 <td>Prioritet:</td><td><img class="issue-priority" src="@Model.fields.priority.iconUrl" alt="@Model.fields.priority.name" /> @Model.fields.priority.name </td>
 </tr>
-<tr>
+<tr class="issue-details">
 <td>Etiketter:</td><td>
 @foreach (var label in Model.fields.labels)
 {
@@ -32,7 +33,7 @@
 }
 </td>
 </tr>
-<tr>
+<tr class="issue-details">
 <td>Komponenter:</td><td>
 @foreach (var component in Model.fields.components)
 {
@@ -40,14 +41,14 @@
 }
 </td>
 </tr>
-<tr>
+<tr class="issue-details">
 <td>Tidsåtgång:</td><td>@(Model.fields.timeestimate / 3600 + 1) timmar</td>
 </tr>
-<tr>
+<tr class="issue-details">
 @{ var resolutionDate = DateTime.Parse(Model.fields.resolutiondate); }
 <td>Levererad:</td><td>@Model.fields.resolution.name (@resolutionDate.ToLongDateString() @resolutionDate.ToShortTimeString()) </td>
 </tr>
-<tr>
+<tr class="issue-details">
 @{ var jiraUrl = new Uri(Model.self);
    jiraUrl = new Uri(jiraUrl.GetLeftPart(UriPartial.Authority) + "/browse/" + Model.key); }
 <td>Länk till Jira:</td><td><a href="@jiraUrl.AbsoluteUri">@jiraUrl.AbsoluteUri</a></td>
@@ -61,5 +62,11 @@
 <h3>Kommentarer</h3>
 @foreach (var comment in Model.fields.comment.comments)
 {
-    <div>@comment.author.displayName @comment.created @comment.body</div>
+    <div class="comment">
+    @{ var posted = DateTime.Parse(comment.created); }
+    <div class="comment-head"><strong>@comment.author.displayName</strong> @posted.ToLongDateString() @posted.ToShortTimeString()</div>
+    <div class="comment-body">@comment.body</div>
+    </div>
 }
+
+</div>
