@@ -53,6 +53,8 @@ namespace JiraIssueBrowser.Controllers
                 AnotherJiraRestClient.Issue.FIELD_SUMMARY, 
                 AnotherJiraRestClient.Issue.FIELD_CREATED,
                 AnotherJiraRestClient.Issue.FIELD_LABELS,
+                AnotherJiraRestClient.Issue.FIELD_COMPONENTS,
+                AnotherJiraRestClient.Issue.FIELD_COMMENT,
                 AnotherJiraRestClient.Issue.FIELD_REPORTER,
                 AnotherJiraRestClient.Issue.FIELD_PRIORITY, 
                 AnotherJiraRestClient.Issue.FIELD_TIMEESTIMATE,

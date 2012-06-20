@@ -9,12 +9,14 @@
 }
 
 <h2>@Model.fields.summary</h2>
+<h3>Detaljer</h3>
 <table>
 <tr>
 <td>Rapporterat av:</td><td>@Model.fields.reporter.displayName (ändra till custom field) </td>
 </tr>
 <tr>
-<td>Skapat:</td><td>@Model.fields.created </td>
+@{ var created = DateTime.Parse(Model.fields.created); }
+<td>Skapat:</td><td>@created.ToLongDateString() @created.ToShortTimeString()</td>
 </tr>
 <tr>
 <td>Status:</td><td><img class="issue-status" src="@Model.fields.status.iconUrl" alt="@Model.fields.status.name" /> @Model.fields.status.name </td>
@@ -23,7 +25,7 @@
 <td>Prioritet:</td><td><img class="issue-priority" src="@Model.fields.priority.iconUrl" alt="@Model.fields.priority.name" /> @Model.fields.priority.name </td>
 </tr>
 <tr>
-<td>Labels:</td><td>
+<td>Etiketter:</td><td>
 @foreach (var label in Model.fields.labels)
 {
     <span class="label">@label</span>
@@ -31,12 +33,33 @@
 </td>
 </tr>
 <tr>
-<td>Tidsåtgång:</td><td>@Model.fields.timeestimate </td>
+<td>Komponenter:</td><td>
+@foreach (var component in Model.fields.components)
+{
+    <span class="label">@component</span>
+}
+</td>
 </tr>
 <tr>
-<td>Levererad:</td><td>@Model.fields.resolution (@Model.fields.resolutiondate) </td>
+<td>Tidsåtgång:</td><td>@(Model.fields.timeestimate / 3600 + 1) timmar</td>
 </tr>
+<tr>
+@{ var resolutionDate = DateTime.Parse(Model.fields.resolutiondate); }
+<td>Levererad:</td><td>@Model.fields.resolution.name (@resolutionDate.ToLongDateString() @resolutionDate.ToShortTimeString()) </td>
+</tr>
+<tr>
+@{ var jiraUrl = new Uri(Model.self);
+   jiraUrl = new Uri(jiraUrl.GetLeftPart(UriPartial.Authority) + "/browse/" + Model.key); }
+<td>Länk till Jira:</td><td><a href="@jiraUrl.AbsoluteUri">@jiraUrl.AbsoluteUri</a></td>
+</tr>
+
 </table>
 
 <h3>Beskrivning</h3>
 @Html.Raw(Model.fields.description.Replace(Environment.NewLine, "<br />"))
+
+<h3>Kommentarer</h3>
+@foreach (var comment in Model.fields.comment.comments)
+{
+    <div>@comment.author.displayName @comment.created @comment.body</div>
+}
