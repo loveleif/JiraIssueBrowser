@@ -1,4 +1,4 @@
-﻿@model AnotherJiraRestClient.Issues
+﻿@model JiraIssueBrowser.Models.IssuesViewModel
 
 @section AddToHead{
     <link href="@Url.Content("~/Content/test1.css")" rel="stylesheet" type="text/css" />
@@ -8,6 +8,27 @@
     ViewBag.Title = "Index";
 }
 
+@using (Html.BeginForm("Issues", "Jira", FormMethod.Get))
+{
+ <div>
+@Html.ListBox("PriorityFilter", Model.PriorityFilter)
+</div>
+
+<div>
+@Html.ListBox("StatusFilter", Model.StatusFilter)
+</div>
+
+<input type="submit" value="Submit" />   
+}
+
+
+<div>
+<button class="btn" href="#">Uppdatera</button>
+</div>
+<div>
+<button href="#">Uppdatera</button>
+</div>
+
 <div class="issues" style="width: 305px">
 <div class="filterhead">
 Filter ska vara här
@@ -16,7 +37,7 @@ Filter ska vara här
 
 <table>
 @{ var odd = true; }
-@foreach (var issue in Model.issues) {
+@foreach (var issue in Model.Issues.issues) {
 
 <tr id="issue_3882" class="issue @(odd ? "odd": "even")">
   <td class="issue-status">

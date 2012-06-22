@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using AnotherJiraRestClient;
 using System.Configuration;
 using System.Xml.Serialization;
+using JiraIssueBrowser.Models;
 
 namespace JiraIssueBrowser.Controllers
 {
@@ -15,24 +16,29 @@ namespace JiraIssueBrowser.Controllers
         //
         // GET: /Jira/
 
-        public ActionResult Issues()
+        public ActionResult Issues(string project)
         {
             // Load JiraAccount from xml
             var serializer = new XmlSerializer(typeof(JiraAccount));
             // TODO: Put file name in variable?
+            // TODO: Cache JiraAccount
             FileStream stream = new FileStream(
                 Server.MapPath("~/App_Data/jira_account.xml"), FileMode.Open);
             var account = (JiraAccount) serializer.Deserialize(stream);
             stream.Close();
 
             var client = new JiraClient(account);
-            var issues = client.GetIssuesByProject("TES", new string[] { 
+
+            var issues = new IssuesViewModel();
+            issues.Issues = client.GetIssuesByProject(project, new string[] { 
                 AnotherJiraRestClient.Issue.FIELD_SUMMARY, 
                 AnotherJiraRestClient.Issue.FIELD_STATUS, 
                 AnotherJiraRestClient.Issue.FIELD_DESCRIPTION, 
                 AnotherJiraRestClient.Issue.FIELD_PRIORITY,
                 AnotherJiraRestClient.Issue.FIELD_ASSIGNEE });
 
+            issues.PriorityFilter = new MultiSelectList(client.GetPriorities(), "id", "name");
+            issues.StatusFilter = new MultiSelectList(client.GetStatuses(), "id", "name");
             return View(issues);
         }
 
