@@ -15,19 +15,22 @@ namespace JiraIssueBrowser.Controllers
     {
         //
         // GET: /Jira/
+        
 
         public ActionResult Issues(string project)
         {
+            /*
             // Load JiraAccount from xml
             var serializer = new XmlSerializer(typeof(JiraAccount));
             // TODO: Put file name in variable?
             // TODO: Cache JiraAccount
+
             FileStream stream = new FileStream(
                 Server.MapPath("~/App_Data/jira_account.xml"), FileMode.Open);
             var account = (JiraAccount) serializer.Deserialize(stream);
-            stream.Close();
-
-            var client = new JiraClient(account);
+            stream.Close(); */
+            
+            var client = new JiraClient(Util.GetJiraAccount(HttpContext, Server));
 
             var issues = new IssuesViewModel();
             issues.Issues = client.GetIssuesByProject(project, new string[] { 
