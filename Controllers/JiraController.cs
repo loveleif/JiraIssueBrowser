@@ -17,8 +17,15 @@ namespace JiraIssueBrowser.Controllers
         // GET: /Jira/
         
 
-        public ActionResult Issues(string project)
+        public ActionResult Issues(string[] priority, string[] status)
         {
+            string jql = "project=TES";
+            if (priority != null)
+                jql += " AND priority in (" + String.Join(",", priority) + ")";
+            if (status != null)
+                jql += " AND status in (" + String.Join(",", status) + ")";
+            // TODO: Where to put the project?
+            
             /*
             // Load JiraAccount from xml
             var serializer = new XmlSerializer(typeof(JiraAccount));
@@ -33,7 +40,15 @@ namespace JiraIssueBrowser.Controllers
             var client = new JiraClient(Util.GetJiraAccount(HttpContext, Server));
 
             var issues = new IssuesViewModel();
-            issues.Issues = client.GetIssuesByProject(project, new string[] { 
+            /*
+            issues.Issues = client.GetIssuesByProject("TES", new string[] { 
+                AnotherJiraRestClient.Issue.FIELD_SUMMARY, 
+                AnotherJiraRestClient.Issue.FIELD_STATUS, 
+                AnotherJiraRestClient.Issue.FIELD_DESCRIPTION, 
+                AnotherJiraRestClient.Issue.FIELD_PRIORITY,
+                AnotherJiraRestClient.Issue.FIELD_ASSIGNEE });
+            */
+            issues.Issues = client.GetIssuesByJql(jql, new string[] { 
                 AnotherJiraRestClient.Issue.FIELD_SUMMARY, 
                 AnotherJiraRestClient.Issue.FIELD_STATUS, 
                 AnotherJiraRestClient.Issue.FIELD_DESCRIPTION, 
@@ -44,6 +59,7 @@ namespace JiraIssueBrowser.Controllers
             issues.StatusFilter = new MultiSelectList(client.GetStatuses(), "id", "name");
             return View(issues);
         }
+
 
         public ActionResult Issue(string key)
         {
@@ -73,6 +89,42 @@ namespace JiraIssueBrowser.Controllers
                 AnotherJiraRestClient.Issue.FIELD_DESCRIPTION, 
                 AnotherJiraRestClient.Issue.FIELD_ASSIGNEE });
 
+            return View(issue);
+        }
+
+        public ActionResult Create()
+        {
+            /*
+            var issue = new Issue();
+            issue.fields = new Fields();
+            issue.fields.project = new Project { id = "10000" };
+            issue.fields.summary = "Some summary";
+            issue.fields.priority = new Priority { id = "1" };
+            issue.fields.labels = new List<string> { "label_a", "label_b" };
+            issue.fields.issuetype = new Issuetype { id = "2" };
+
+            var client = new JiraClient(Util.GetJiraAccount(HttpContext, Server));
+            var response = client.CreateIssue("10000", "REST issue", "2", "1", new string[] { "label1", "label2" });
+
+            ViewBag.Response = response;
+            */
+            var client = new JiraClient(Util.GetJiraAccount(HttpContext, Server));
+            var newIssue = new NewIssueViewModel();
+            newIssue.PrioritySelectList = new SelectList(client.GetPriorities(), "id", "name");
+            
+            return View(newIssue);
+        }
+
+        [HttpPost]
+        public ActionResult Create(NewIssueViewModel issue)
+        {
+            if (ModelState.IsValid)
+            {
+                var client = new JiraClient(Util.GetJiraAccount(HttpContext, Server));
+                // TODO: project id!!!
+                client.CreateIssue("10000", issue.summary, issue.issueTypeId, issue.priorityId, new string[] {});
+                return RedirectToAction("Issues");
+            }
             return View(issue);
         }
     }

@@ -81,6 +81,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\IssuesViewModel.cs" />
+    <Compile Include="Models\NewIssueViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -156,7 +157,6 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -171,6 +171,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Jira\Issue.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Jira\Create.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

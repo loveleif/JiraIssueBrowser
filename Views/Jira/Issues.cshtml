@@ -11,11 +11,11 @@
 @using (Html.BeginForm("Issues", "Jira", FormMethod.Get))
 {
  <div>
-@Html.ListBox("PriorityFilter", Model.PriorityFilter)
+@Html.ListBox("priority", Model.PriorityFilter)
 </div>
 
 <div>
-@Html.ListBox("StatusFilter", Model.StatusFilter)
+@Html.ListBox("status", Model.StatusFilter)
 </div>
 
 <input type="submit" value="Submit" />   
