@@ -17,9 +17,10 @@ namespace JiraIssueBrowser.Controllers
         // GET: /Jira/
         
 
-        public ActionResult Issues(string[] priority, string[] status)
+        public ActionResult Issues(int[] priority, int[] status)
         {
-            string jql = "project=TES";
+            // TODO: How to handle project???
+            string jql = "project=" + Util.GetProjectKey();
             if (priority != null)
                 jql += " AND priority in (" + String.Join(",", priority) + ")";
             if (status != null)
@@ -77,7 +78,8 @@ namespace JiraIssueBrowser.Controllers
              */
             var client = Util.GetJiraClient(HttpContext, Server);
             var issue = client.GetIssue(key, new string[] { 
-                AnotherJiraRestClient.Issue.FIELD_SUMMARY, 
+                AnotherJiraRestClient.Issue.FIELD_SUMMARY,
+                AnotherJiraRestClient.Issue.FIELD_PROJECT,
                 AnotherJiraRestClient.Issue.FIELD_CREATED,
                 AnotherJiraRestClient.Issue.FIELD_LABELS,
                 AnotherJiraRestClient.Issue.FIELD_COMPONENTS,
@@ -90,7 +92,8 @@ namespace JiraIssueBrowser.Controllers
                 AnotherJiraRestClient.Issue.FIELD_STATUS, 
                 AnotherJiraRestClient.Issue.FIELD_DESCRIPTION, 
                 AnotherJiraRestClient.Issue.FIELD_ASSIGNEE });
-
+            if (issue == null || issue.key != key || issue.fields.project.key != Util.GetProjectKey())
+                throw new HttpException(404, "Issue not found.");
             return View(issue);
         }
 
@@ -124,7 +127,7 @@ namespace JiraIssueBrowser.Controllers
             {
                 var client = Util.GetJiraClient(HttpContext, Server);
                 // TODO: project id!!!
-                client.CreateIssue("10000", issue.summary, issue.issueTypeId, issue.priorityId, new string[] {});
+                client.CreateIssue(Util.GetProjectKey(), issue.summary, issue.issueTypeId, issue.priorityId, new string[] {});
                 return RedirectToAction("Issues");
             }
             return View(issue);

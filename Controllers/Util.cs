@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,7 @@ namespace JiraIssueBrowser.Controllers
         public const string KEY_JIRA_ACCOUNT = "JiraAccount";
         public const string KEY_JIRA_CLIENT = "JiraClient";
         private const string VIRTUAL_PATH_JIRA_ACCOUNT_XML = "~/App_Data/jira_account.xml";
+        private const string APP_SETTING_PROJECT_KEY = "JiraProjectKey";
 
         /// <summary>
         /// Returns the JiraClient for this application. The JiraClient
@@ -51,6 +53,16 @@ namespace JiraIssueBrowser.Controllers
             var account = (JiraAccount) serializer.Deserialize(stream);
             stream.Close();
             return account;
+        }
+
+        /// <summary>
+        /// Returns the jira project key for this application (application 
+        /// settings are cached automatically).
+        /// </summary>
+        /// <returns>the jira project key for this application</returns>
+        public static string GetProjectKey()
+        {
+            return ConfigurationManager.AppSettings[APP_SETTING_PROJECT_KEY];
         }
     }
 }
