@@ -37,7 +37,7 @@ namespace JiraIssueBrowser.Controllers
             var account = (JiraAccount) serializer.Deserialize(stream);
             stream.Close(); */
             
-            var client = new JiraClient(Util.GetJiraAccount(HttpContext, Server));
+            var client = Util.GetJiraClient(HttpContext, Server);
 
             var issues = new IssuesViewModel();
             /*
@@ -64,7 +64,7 @@ namespace JiraIssueBrowser.Controllers
         public ActionResult Issue(string key)
         {
             // TODO: Authorized to view this project?
-
+            /*
             // Load JiraAccount from xml
             var serializer = new XmlSerializer(typeof(JiraAccount));
             // TODO: Put file name in variable?
@@ -74,6 +74,8 @@ namespace JiraIssueBrowser.Controllers
             stream.Close();
 
             var client = new JiraClient(account);
+             */
+            var client = Util.GetJiraClient(HttpContext, Server);
             var issue = client.GetIssue(key, new string[] { 
                 AnotherJiraRestClient.Issue.FIELD_SUMMARY, 
                 AnotherJiraRestClient.Issue.FIELD_CREATED,
@@ -108,7 +110,7 @@ namespace JiraIssueBrowser.Controllers
 
             ViewBag.Response = response;
             */
-            var client = new JiraClient(Util.GetJiraAccount(HttpContext, Server));
+            var client = Util.GetJiraClient(HttpContext, Server);
             var newIssue = new NewIssueViewModel();
             newIssue.PrioritySelectList = new SelectList(client.GetPriorities(), "id", "name");
             
@@ -120,7 +122,7 @@ namespace JiraIssueBrowser.Controllers
         {
             if (ModelState.IsValid)
             {
-                var client = new JiraClient(Util.GetJiraAccount(HttpContext, Server));
+                var client = Util.GetJiraClient(HttpContext, Server);
                 // TODO: project id!!!
                 client.CreateIssue("10000", issue.summary, issue.issueTypeId, issue.priorityId, new string[] {});
                 return RedirectToAction("Issues");
