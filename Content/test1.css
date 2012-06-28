@@ -160,3 +160,138 @@ rgba(0, 0, 0, 0.05);
 button {
     -webkit-appearance: button;
 }
+
+.pagination {
+height: 36px;
+margin: 18px 0;
+}
+
+.pagination li {
+display: inline;
+}
+
+li {
+line-height: 18px;
+}
+
+ul {
+list-style: disc;
+}
+
+ul, ol {
+padding: 0;
+margin: 0 0 9px 25px;
+}
+
+.pagination li:first-child a {
+border-left-width: 1px;
+-webkit-border-radius: 3px 0 0 3px;
+-moz-border-radius: 3px 0 0 3px;
+border-radius: 3px 0 0 3px;
+}
+
+.pagination .disabled span, .pagination .disabled a, .pagination .disabled a:hover {
+color: 
+#999;
+cursor: default;
+background-color: 
+transparent;
+}
+
+.pagination a {
+float: left;
+padding: 0 14px;
+line-height: 34px;
+text-decoration: none;
+border: 1px solid 
+#DDD;
+border-left-width: 0;
+}
+
+.pagination .active a {
+color: 
+#999;
+cursor: default;
+}
+
+.pagination a:hover, .pagination .active a {
+background-color: 
+whiteSmoke;
+}
+
+.pagination a {
+margin-left: auto;
+padding: 0 14px;
+line-height: 34px;
+text-decoration: none;
+border: 1px solid 
+#DDD;
+border-left-width: 0;
+
+}
+
+.pagination li:last-child a {
+-webkit-border-radius: 0 3px 3px 0;
+-moz-border-radius: 0 3px 3px 0;
+border-radius: 0 3px 3px 0;
+}
+
+.box {
+background: 
+white;
+background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,
+white),color-stop(100%,
+#DDD));
+background: -webkit-linear-gradient(top,
+#F6F6F6 0,
+#DDD 100%);
+background: -moz-linear-gradient(top,
+white 0,
+#DDD 100%);
+background: -ms-linear-gradient(top,
+white 0,
+#DDD 100%);
+background: -o-linear-gradient(top,
+white 0,
+#DDD 100%);
+background: linear-gradient(top,
+white 0,
+#DDD 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#dddddd',GradientType=0);
+border-left: solid 1px 
+#EEE;
+border-right: solid 1px 
+#EEE;
+border-bottom: 0;
+
+rgba(0, 0, 0, .1);
+-webkit-border-radius: 6px;
+-webkit-border-bottom-left-radius: 0;
+-webkit-border-bottom-right-radius: 0;
+-moz-border-radius: 6px;
+-moz-border-radius-bottomleft: 0;
+-moz-border-radius-bottomright: 0;
+border-radius: 6px;
+border-bottom-left-radius: 0;
+border-bottom-right-radius: 0;
+
+padding:  5px;
+margin: 0px 0px 0 0px;
+width: 449px;
+}
+
+.prio
+ {
+    float: left;
+}
+
+.issues {
+    float: left;
+    padding:  0px;
+    margin: 0;
+    width: 460px;
+}
+
+.knapp {
+    
+}

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AnotherJiraRestClient;
+using JiraIssueBrowser.Controllers;
 
 namespace JiraIssueBrowser.Models
 {
@@ -18,5 +19,15 @@ namespace JiraIssueBrowser.Models
         public MultiSelectList StatusFilter { get; set; }
         public SelectList OrderBy { get; set; }
         public bool orderAscending { get; set; }
+
+        public Page Page { get; set; }
+
+        public string TestTime(Issue issue)
+        {
+            // TODO: Temp lösning, måste nog kolla om parse funkar
+            if (issue == null || issue.fields.created == null)
+                return string.Empty;
+            return Util.GetTimePassed(DateTime.Parse(issue.fields.created), DateTime.Now);
+        }
     }
 }

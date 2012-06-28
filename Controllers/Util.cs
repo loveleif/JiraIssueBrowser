@@ -64,5 +64,27 @@ namespace JiraIssueBrowser.Controllers
         {
             return ConfigurationManager.AppSettings[APP_SETTING_PROJECT_KEY];
         }
+
+        public static string GetTimePassed(DateTime from, DateTime to)
+        {
+            var span = to.Subtract(from);
+            var minutes = span.TotalMinutes;
+
+            if (minutes >= 60 * 24)
+            {
+                var days = Math.Round(span.TotalDays);
+                return days == 1 ? "1 dag" : days + " dagar";
+            }
+            else  if (minutes >= 60)
+            {
+                var hours = Math.Round(span.TotalHours);
+                return hours == 1 ? "1 timma" : hours + " timmar";
+            }
+            else
+            {
+                var minutesRounded = Math.Round(minutes);
+                return minutesRounded == 1 ? "1 minut" : minutesRounded + " minuter";
+            }
+        }
     }
 }

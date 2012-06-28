@@ -1,4 +1,4 @@
-﻿@model AnotherJiraRestClient.Issue
+﻿@model JiraIssueBrowser.Models.IssueViewModel
 
 @section AddToHead{
     <link href="@Url.Content("~/Content/test1.css")" rel="stylesheet" type="text/css" />
@@ -9,25 +9,24 @@
 }
 
 <div style="width: 600px">
-<h2>@Model.fields.summary</h2>
+<h2>@Model.Summary</h2>
 <h3>Detaljer</h3>
 <table class="issue-details">
 <tr class="issue-details">
-<td>Rapporterat av:</td><td>@Model.fields.reporter.displayName (ändra till custom field) </td>
+<td>Rapporterat av:</td><td>@Model.ReportedBy</td>
 </tr>
 <tr class="issue-details">
-@{ var created = DateTime.Parse(Model.fields.created); }
-<td>Skapat:</td><td>@created.ToLongDateString() @created.ToShortTimeString()</td>
+<td>Skapat:</td><td>@Model.Created</td>
 </tr>
 <tr class="issue-details">
-<td>Status:</td><td><img class="issue-status" src="@Model.fields.status.iconUrl" alt="@Model.fields.status.name" /> @Model.fields.status.name </td>
+<td>Status:</td><td><img class="issue-status" src="@Model.Status.iconUrl" alt="@Model.Status.name" /> @Model.Status.name </td>
 </tr class="issue-details">
 <tr class="issue-details">
-<td>Prioritet:</td><td><img class="issue-priority" src="@Model.fields.priority.iconUrl" alt="@Model.fields.priority.name" /> @Model.fields.priority.name </td>
+<td>Prioritet:</td><td><img class="issue-priority" src="@Model.Priority.iconUrl" alt="@Model.Priority.name" /> @Model.Priority.name </td>
 </tr>
 <tr class="issue-details">
 <td>Etiketter:</td><td>
-@foreach (var label in Model.fields.labels)
+@foreach (var label in Model.Labels)
 {
     <span class="label">@label</span>
 }
@@ -35,32 +34,31 @@
 </tr>
 <tr class="issue-details">
 <td>Komponenter:</td><td>
-@foreach (var component in Model.fields.components)
+@foreach (var component in Model.Components)
 {
-    <span class="label">@component</span>
+    <span class="component">@component.name</span>
 }
 </td>
 </tr>
 <tr class="issue-details">
-<td>Tidsåtgång:</td><td>@(Model.fields.timeestimate / 3600 + 1) timmar</td>
+<td>Tidsåtgång:</td><td>@Model.TimeEstimate</td>
+
 </tr>
 <tr class="issue-details">
-@{ var resolutionDate = DateTime.Parse(Model.fields.resolutiondate); }
-<td>Levererad:</td><td>@Model.fields.resolution.name (@resolutionDate.ToLongDateString() @resolutionDate.ToShortTimeString()) </td>
+<td>Levererad:</td><td>@Model.Solution</td> 
+
 </tr>
 <tr class="issue-details">
-@{ var jiraUrl = new Uri(Model.self);
-   jiraUrl = new Uri(jiraUrl.GetLeftPart(UriPartial.Authority) + "/browse/" + Model.key); }
-<td>Länk till Jira:</td><td><a href="@jiraUrl.AbsoluteUri">@jiraUrl.AbsoluteUri</a></td>
+<td>Länk till Jira:</td><td><a href="@Model.UrlToJira.AbsoluteUri">@Model.UrlToJira.AbsoluteUri</a></td>
 </tr>
 
 </table>
 
 <h3>Beskrivning</h3>
-@Html.Raw(Model.fields.description.Replace(Environment.NewLine, "<br />"))
+@Html.Raw(Model.Description)
 
 <h3>Kommentarer</h3>
-@foreach (var comment in Model.fields.comment.comments)
+@foreach (var comment in Model.Comments)
 {
     <div class="comment">
     @{ var posted = DateTime.Parse(comment.created); }

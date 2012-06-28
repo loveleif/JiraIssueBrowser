@@ -8,34 +8,35 @@
     ViewBag.Title = "Index";
 }
 
+
+<div class="box">
 @using (Html.BeginForm("Issues", "Jira", FormMethod.Get))
 {
- <div>
+
+    <div>
+<div class="prio">
 @Html.ListBox("priority", Model.PriorityFilter)
 </div>
 
-<div>
+<div class="status">
 @Html.ListBox("status", Model.StatusFilter)
 </div>
-
-<input type="submit" value="Submit" />   
+</div>
+<input class="knapp" type="submit" value="Filtrera" />
+}
+@using (Html.BeginForm("Issues", "Jira", FormMethod.Get))
+{
+    <input class="knapp" type="submit" value="Rensa" />
+    
 }
 
 
-<div>
-<button class="btn" href="#">Uppdatera</button>
-</div>
-<div>
-<button href="#">Uppdatera</button>
 </div>
 
-<div class="issues" style="width: 305px">
-<div class="filterhead">
-Filter ska vara här
-</div>
+<div class="issues">
 
 
-<table>
+<table class="issues">
 @{ var odd = true; }
 @foreach (var issue in Model.Issues.issues) {
 
@@ -59,12 +60,15 @@ Filter ska vara här
         <a href="@Url.Action("Issue", new { key = issue.key })">@issue.fields.summary</a>
       </h3>
 
-
-      <p>rapporterat av <strong>@issue.fields.assignee.name</strong> för 3 dagar sedan</p>
+      <p>rapporterat av <strong>@issue.fields.assignee.displayName</strong> för @Model.TestTime(issue) sedan</p>
     </div>
   </td>
 </tr>
 odd = !odd;
 }
 </table>
+
+
+
+@{ Html.RenderPartial("PaginationPartial", Model.Page); }
 </div>

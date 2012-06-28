@@ -8,18 +8,29 @@ using AnotherJiraRestClient;
 using System.Configuration;
 using System.Xml.Serialization;
 using JiraIssueBrowser.Models;
+using System.Web.Mvc.Html;
 
 namespace JiraIssueBrowser.Controllers
 {
     public class JiraController : Controller
     {
+        public const int ISSUES_PER_PAGE = 10;
+
         //
         // GET: /Jira/
-        
+        private JiraClient _client = null;
+        private JiraClient Client
+        { 
+          get
+          {
+              if (_client == null)
+                  _client = Util.GetJiraClient(HttpContext, Server);
+              return _client;
+          }
+        }
 
-        public ActionResult Issues(int[] priority, int[] status)
+        public ActionResult Issues(int page = 1, int[] priority = null, int[] status = null)
         {
-            // TODO: How to handle project???
             string jql = "project=" + Util.GetProjectKey();
             if (priority != null)
                 jql += " AND priority in (" + String.Join(",", priority) + ")";
@@ -38,8 +49,6 @@ namespace JiraIssueBrowser.Controllers
             var account = (JiraAccount) serializer.Deserialize(stream);
             stream.Close(); */
             
-            var client = Util.GetJiraClient(HttpContext, Server);
-
             var issues = new IssuesViewModel();
             /*
             issues.Issues = client.GetIssuesByProject("TES", new string[] { 
@@ -49,18 +58,29 @@ namespace JiraIssueBrowser.Controllers
                 AnotherJiraRestClient.Issue.FIELD_PRIORITY,
                 AnotherJiraRestClient.Issue.FIELD_ASSIGNEE });
             */
-            issues.Issues = client.GetIssuesByJql(jql, new string[] { 
-                AnotherJiraRestClient.Issue.FIELD_SUMMARY, 
-                AnotherJiraRestClient.Issue.FIELD_STATUS, 
-                AnotherJiraRestClient.Issue.FIELD_DESCRIPTION, 
-                AnotherJiraRestClient.Issue.FIELD_PRIORITY,
-                AnotherJiraRestClient.Issue.FIELD_ASSIGNEE });
 
-            issues.PriorityFilter = new MultiSelectList(client.GetPriorities(), "id", "name");
-            issues.StatusFilter = new MultiSelectList(client.GetStatuses(), "id", "name");
+            issues.Issues = Client.GetIssuesByJql(
+                jql, (page - 1) * ISSUES_PER_PAGE, ISSUES_PER_PAGE, 
+                new string[] 
+                { 
+                    AnotherJiraRestClient.Issue.FIELD_SUMMARY, 
+                    AnotherJiraRestClient.Issue.FIELD_STATUS, 
+                    AnotherJiraRestClient.Issue.FIELD_DESCRIPTION, 
+                    AnotherJiraRestClient.Issue.FIELD_PRIORITY,
+                    AnotherJiraRestClient.Issue.FIELD_ASSIGNEE,
+                    AnotherJiraRestClient.Issue.FIELD_CREATED
+                });
+
+            issues.PriorityFilter = new MultiSelectList(Client.GetPriorities(), "id", "name", priority);
+
+            issues.StatusFilter = new MultiSelectList(Client.GetStatuses(), "id", "name");
+            issues.Page = new Page(
+                page,
+                issues.Issues.total / ISSUES_PER_PAGE + 1,
+                (helper, pageNumber) => LinkExtensions.ActionLink(
+                    helper, pageNumber.ToString(), "Issues", new { page = pageNumber, priority = priority, status = status }));
             return View(issues);
         }
-
 
         public ActionResult Issue(string key)
         {
@@ -76,8 +96,7 @@ namespace JiraIssueBrowser.Controllers
 
             var client = new JiraClient(account);
              */
-            var client = Util.GetJiraClient(HttpContext, Server);
-            var issue = client.GetIssue(key, new string[] { 
+            var issue = Client.GetIssue(key, new string[] { 
                 AnotherJiraRestClient.Issue.FIELD_SUMMARY,
                 AnotherJiraRestClient.Issue.FIELD_PROJECT,
                 AnotherJiraRestClient.Issue.FIELD_CREATED,
@@ -94,7 +113,7 @@ namespace JiraIssueBrowser.Controllers
                 AnotherJiraRestClient.Issue.FIELD_ASSIGNEE });
             if (issue == null || issue.key != key || issue.fields.project.key != Util.GetProjectKey())
                 throw new HttpException(404, "Issue not found.");
-            return View(issue);
+            return View(new IssueViewModel(issue));
         }
 
         public ActionResult Create()
@@ -113,10 +132,9 @@ namespace JiraIssueBrowser.Controllers
 
             ViewBag.Response = response;
             */
-            var client = Util.GetJiraClient(HttpContext, Server);
             var newIssue = new NewIssueViewModel();
-            newIssue.PrioritySelectList = new SelectList(client.GetPriorities(), "id", "name");
-            
+            newIssue.PrioritySelectList = new SelectList(Client.GetPriorities(), "id", "name");
+            newIssue.IssueTypeSelectList = new SelectList(Client.GetProjectMeta(Util.GetProjectKey()).issuetypes, "id", "name");
             return View(newIssue);
         }
 
@@ -126,11 +144,17 @@ namespace JiraIssueBrowser.Controllers
             if (ModelState.IsValid)
             {
                 var client = Util.GetJiraClient(HttpContext, Server);
-                // TODO: project id!!!
-                client.CreateIssue(Util.GetProjectKey(), issue.summary, issue.issueTypeId, issue.priorityId, new string[] {});
+                client.CreateIssue(
+                    Util.GetProjectKey(), 
+                    issue.summary, 
+                    issue.description, 
+                    issue.issueTypeId, 
+                    issue.priorityId, 
+                    new string[] {});
                 return RedirectToAction("Issues");
             }
             return View(issue);
         }
+
     }
 }
