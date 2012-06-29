@@ -86,5 +86,10 @@ namespace JiraIssueBrowser.Controllers
                 return minutesRounded == 1 ? "1 minut" : minutesRounded + " minuter";
             }
         }
+
+        public static void foo<T>(IEnumerable<T> values)
+        {
+            List<T> list = values.ToList();
+        }
     }
 }

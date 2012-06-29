@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Xml.Serialization;
 using JiraIssueBrowser.Models;
 using System.Web.Mvc.Html;
+using AnotherJiraRestClient.JiraModel;
 
 namespace JiraIssueBrowser.Controllers
 {
@@ -143,18 +144,31 @@ namespace JiraIssueBrowser.Controllers
         {
             if (ModelState.IsValid)
             {
-                var client = Util.GetJiraClient(HttpContext, Server);
-                client.CreateIssue(
-                    Util.GetProjectKey(), 
-                    issue.summary, 
-                    issue.description, 
-                    issue.issueTypeId, 
-                    issue.priorityId, 
-                    new string[] {});
-                return RedirectToAction("Issues");
+                BasicIssue newIssue;
+                try 
+	            {	        
+		            newIssue = Client.CreateIssue(
+                        Util.GetProjectKey(), 
+                        issue.summary, 
+                        issue.description, 
+                        issue.issueTypeId, 
+                        issue.priorityId, 
+                        new string[] {});
+	            }
+	            catch (JiraApiException ex)
+	            {
+                    // TODO: Send mail with error?
+                    return RedirectToAction("CreateStatus", new { message = ex.Message });
+	            }
+
+                return RedirectToAction("CreateStatus", new { message = "Skapade en ny förfrågan med nyckel: " + newIssue.key });
             }
             return View(issue);
         }
 
+        public string CreateStatus(string message)
+        {
+            return message;
+        }
     }
 }
