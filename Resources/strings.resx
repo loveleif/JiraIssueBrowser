@@ -120,6 +120,9 @@
   <data name="description_label" xml:space="preserve">
     <value>Beskrivning</value>
   </data>
+  <data name="priority_label" xml:space="preserve">
+    <value>Prioritet</value>
+  </data>
   <data name="summary_label" xml:space="preserve">
     <value>Sammanfattning</value>
   </data>

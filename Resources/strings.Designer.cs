@@ -70,6 +70,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Prioritet.
+        /// </summary>
+        public static string priority_label {
+            get {
+                return ResourceManager.GetString("priority_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sammanfattning.
         /// </summary>
         public static string summary_label {

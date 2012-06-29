@@ -35,7 +35,7 @@ namespace JiraIssueBrowser.Models
         [UIHint("DropDownList")]
         public string issueTypeId { get; set; }
 
-        [DisplayName("Priority")]
+        [Display(Name = "priority_label", ResourceType = typeof(Resources.strings))]
         [Required(ErrorMessage = "You must select a priority")]
         [UIHint("DropDownList")]
         public string priorityId { get; set; }
