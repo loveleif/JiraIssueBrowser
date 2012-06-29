@@ -13,19 +13,19 @@ namespace JiraIssueBrowser.Models
     {
         [ScaffoldColumn(false)]
         public SelectList IssueTypeSelectList { get; set; }
-
+        
         [ScaffoldColumn(false)]
         public SelectList PrioritySelectList { get; set; }
 
         [ScaffoldColumn(false)]
         public string projectId { get; set; }
 
-        [DisplayName("Summary")]
+        [Display(Name = "summary_label", ResourceType = typeof(Resources.strings))]
         [Required]
         [StringLength(254, ErrorMessage = "The summary can't exceed 254 characters.")]
         public string summary { get; set; }
 
-        [DisplayName("Description")]
+        [Display(Name = "description_label", ResourceType = typeof(Resources.strings))]
         [Required]
         [DataType(DataType.MultilineText)]
         public string description { get; set; }
