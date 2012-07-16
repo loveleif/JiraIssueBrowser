@@ -293,5 +293,7 @@ width: 449px;
 }
 
 .knapp {
-    
+    text-transform: capitalize;
+    border: 1px dotted grey;
+    background-repeat: no-repeat
 }

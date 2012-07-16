@@ -10,7 +10,7 @@
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Skapa ny förfrågan</legend>
+        <legend>@Resources.strings.create_issue_label</legend>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.summary)
