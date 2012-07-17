@@ -15,6 +15,7 @@ namespace JiraIssueBrowser.Controllers
         public const string KEY_JIRA_CLIENT = "JiraClient";
         private const string VIRTUAL_PATH_JIRA_ACCOUNT_XML = "~/App_Data/jira_account.xml";
         private const string APP_SETTING_PROJECT_KEY = "JiraProjectKey";
+        private const string APP_SETTING_CLIENT_REPORTER_FIELD = "JiraClientReporterFieldName";
 
         /// <summary>
         /// Returns the JiraClient for this application. The JiraClient
@@ -63,6 +64,15 @@ namespace JiraIssueBrowser.Controllers
         public static string GetProjectKey()
         {
             return ConfigurationManager.AppSettings[APP_SETTING_PROJECT_KEY];
+        }
+
+        /// <summary>
+        /// Returns the jira field name for the custom field "Client Reporter".
+        /// </summary>
+        /// <returns>the jira field name for the custom field "Client Reporter"</returns>
+        public static string GetClientReporterFieldName()
+        {
+            return ConfigurationManager.AppSettings[APP_SETTING_CLIENT_REPORTER_FIELD];
         }
 
         public static string GetTimePassed(DateTime from, DateTime to)

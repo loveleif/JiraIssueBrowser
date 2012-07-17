@@ -61,6 +61,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rapporterat av.
+        /// </summary>
+        public static string client_reporter_label {
+            get {
+                return ResourceManager.GetString("client_reporter_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Skapa ny förfrågan.
         /// </summary>
         public static string create_issue_label {

@@ -144,20 +144,16 @@ namespace JiraIssueBrowser.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                var createIssue = issue.ToCreateIssue();
+                
                 BasicIssue newIssue;
                 try 
-	            {	        
-		            newIssue = Client.CreateIssue(
-                        Util.GetProjectKey(), 
-                        issue.summary, 
-                        issue.description, 
-                        issue.issueTypeId, 
-                        issue.priorityId, 
-                        new string[] {});
+	            {
+                    newIssue = Client.CreateIssue(createIssue);
 	            }
 	            catch (JiraApiException ex)
 	            {
-                    // TODO: Send mail with error?
                     return RedirectToAction("CreateStatus", new { message = ex.Message });
 	            }
 

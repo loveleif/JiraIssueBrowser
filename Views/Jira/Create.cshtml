@@ -29,6 +29,15 @@
         </div>
 
         <div class="editor-label">
+            @Html.LabelFor(model => model.ClientReporter)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ClientReporter)
+            @Html.ValidationMessageFor(model => model.ClientReporter)
+        </div>
+
+
+        <div class="editor-label">
             @Html.LabelFor(model => model.issueTypeId)
         </div>
         <div class="editor-field">
