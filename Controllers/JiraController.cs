@@ -69,7 +69,8 @@ namespace JiraIssueBrowser.Controllers
                     AnotherJiraRestClient.Issue.FIELD_DESCRIPTION, 
                     AnotherJiraRestClient.Issue.FIELD_PRIORITY,
                     AnotherJiraRestClient.Issue.FIELD_ASSIGNEE,
-                    AnotherJiraRestClient.Issue.FIELD_CREATED
+                    AnotherJiraRestClient.Issue.FIELD_CREATED,
+                    AnotherJiraRestClient.Issue.FIELD_REPORTER
                 });
 
             issues.PriorityFilter = new MultiSelectList(Client.GetPriorities(), "id", "name", priority);

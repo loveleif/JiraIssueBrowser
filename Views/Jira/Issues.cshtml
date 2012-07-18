@@ -1,7 +1,7 @@
 ﻿@model JiraIssueBrowser.Models.IssuesViewModel
 
 @section AddToHead{
-    <link href="@Url.Content("~/Content/test1.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/issues.css")" rel="stylesheet" type="text/css" />
 }           
 
 @{
@@ -33,42 +33,29 @@
 
 </div>
 
+
 <div class="issues">
+<table class="issue-table">
+@{ bool odd = false; }
+@foreach (var issue in Model.Issues.issues)
+{
+    odd = !odd;
+    <tr class="@(odd ? "odd": "even")">
+    <td>
+        <div>
+        <span class="issue-created">@issue.fields.reporter.displayName, @Model.TestTime(issue) sedan</span>
+        <span class="issue-status" style="background-image: url(@issue.fields.status.iconUrl);">@issue.fields.status.name</span>
+        <span class="issue-priority" style="background-image: url(@issue.fields.priority.iconUrl);">@issue.fields.priority.name</span>
+        </div>
 
+        <div class="issue-summary">@issue.fields.summary</div>
 
-<table class="issues">
-@{ var odd = true; }
-@foreach (var issue in Model.Issues.issues) {
-
-<tr id="issue_3882" class="issue @(odd ? "odd": "even")">
-  <td class="issue-status">
-      <img class="issue-status" src="@issue.fields.status.iconUrl" alt="@issue.fields.status.name" />
-  </td>
-
-  <td class="issue-priority">
-      <img class="issue-priority" src="@issue.fields.priority.iconUrl" alt="@issue.fields.priority.name" />
-  </td>
-
-  <td class="number">
-    @issue.key
-  </td>
-
-  <td class="info">
-    <div class="wrapper">
-
-      <h3>
-        <a href="@Url.Action("Issue", new { key = issue.key })">@issue.fields.summary</a>
-      </h3>
-
-      <p>rapporterat av <strong>@issue.fields.assignee.displayName</strong> för @Model.TestTime(issue) sedan</p>
-    </div>
-  </td>
-</tr>
-odd = !odd;
+        <div class="issue-description">@issue.fields.description</div>
+    </td>
+    </tr>
 }
+
 </table>
-
-
 
 @{ Html.RenderPartial("PaginationPartial", Model.Page); }
 </div>

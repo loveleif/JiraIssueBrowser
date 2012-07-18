@@ -1,0 +1,52 @@
+﻿.issues {
+    width: 480px;
+    float: left;
+}
+
+td {
+    padding-top: 10px;
+}
+
+tr {
+	border-bottom: 1px solid #dcdcdc;
+}
+
+.odd {
+	background: whitesmoke;
+}
+
+div.issue-prio {
+	margin-top: 3px;
+}
+
+div.issue-summary {
+	color: #353535;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.issue-description {
+	color: #555;
+}
+
+.issue-created {
+    float: right;
+	background: #ddd;
+	font-weight: lighter;
+	font-size: 1em;
+	margin-top: 0;
+}
+
+.issue-icon-status {
+	float: left;
+}
+
+.issue-status,
+.issue-priority {
+    color: #b3b3b3; 
+    font-size: 0.8em; 
+    background-position: left; 
+    background-repeat: no-repeat; 
+    padding-left: 16px; 
+    margin-right: 5px;
+}
