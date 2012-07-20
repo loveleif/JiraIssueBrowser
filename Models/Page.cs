@@ -10,9 +10,9 @@ namespace JiraIssueBrowser.Models
     public class Page
     {
         private int _currentPage;
-        private Func<HtmlHelper, int, MvcHtmlString> _generateUrl;
+        private Func<UrlHelper, int, string> _generateUrl;
 
-        public Page(int currentPage, int totalPages, Func<HtmlHelper, int, MvcHtmlString> generateUrl)
+        public Page(int currentPage, int totalPages, Func<UrlHelper, int, string> generateUrl)
         {
             TotalPages = totalPages;
             CurrentPage = currentPage;
@@ -48,7 +48,7 @@ namespace JiraIssueBrowser.Models
             return CurrentPage == TotalPages;
         }
 
-        public MvcHtmlString GenerateUrl(HtmlHelper helper, int pageNumber)
+        public string GenerateUrl(UrlHelper helper, int pageNumber)
         {
             return _generateUrl(helper, pageNumber);
         }

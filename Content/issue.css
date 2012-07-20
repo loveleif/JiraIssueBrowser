@@ -1,0 +1,53 @@
+﻿body {
+    font-size: 0.8em;
+}
+
+h2 {
+	font-weight: normal;
+	font-size: 1.6em;
+}
+
+h3 {
+	border-bottom: 1px solid #d8d8d8;
+    font-size: 1em;
+	font-weight: bold;	
+}
+
+.issue-detail-label {
+    font-weight: bolder;
+}
+
+.issue-details {
+	color: #888;
+}
+
+td {
+	padding-bottom: 8px;
+}
+
+div.issue {
+    margin-left: 5%;
+    width: 90%; 
+    max-width: 50em;
+}
+
+.comment {
+    margin-bottom: 8px;
+}
+
+.comment-head {
+    background: #E6E6E6;
+    color: black;
+    border: 1px solid #CCC;
+    border-bottom: 0;
+    padding: 8px;
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#F8F8F8', endColorstr='#E1E1E1');
+    background: -webkit-gradient(linear, left top, left bottom, from(#F8F8F8), to(#E1E1E1));
+    background: -moz-linear-gradient(top, #F8F8F8, #E1E1E1);
+}
+
+.comment-body {
+    border: 1px solid #CCC;
+    padding: 8px;
+    border-top: 0;
+}

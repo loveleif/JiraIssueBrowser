@@ -79,11 +79,29 @@ namespace JiraIssueBrowser.Controllers
             issues.Page = new Page(
                 page,
                 issues.Issues.total / ISSUES_PER_PAGE + 1,
-                (helper, pageNumber) => LinkExtensions.ActionLink(
-                    helper, pageNumber.ToString(), "Issues", new { page = pageNumber, priority = priority, status = status }));
+                (helper, pageNumber) => TestUri(helper, pageNumber, priority, status));
             return View(issues);
         }
 
+        public static string TestUri(UrlHelper helper, int pageNumber, int[] priority, int[] status)
+        {
+            // Känns som fulkod...
+            var href = helper.Action("issues", "jira", new { page = pageNumber }, helper.RequestContext.HttpContext.Request.Url.Scheme);
+
+            if (priority != null)
+            {
+                href += "?";
+                href += string.Join("&", priority.Select(x => "priority=" + HttpUtility.UrlEncode(x.ToString())));
+            }
+            if (status != null)
+            {
+                href += "&";
+                href += string.Join("&", status.Select(x => "status=" + HttpUtility.UrlEncode(x.ToString())));
+            }
+            
+            return href;
+        }
+        
         public ActionResult Issue(string key)
         {
             // TODO: Authorized to view this project?

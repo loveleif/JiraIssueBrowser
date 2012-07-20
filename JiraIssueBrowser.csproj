@@ -90,8 +90,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\boilerplate.css" />
+    <Content Include="Content\issue.css" />
     <Content Include="Content\issues.css" />
-    <Content Include="Content\test1.css" />
+    <Content Include="Content\pagination.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -130,7 +132,9 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

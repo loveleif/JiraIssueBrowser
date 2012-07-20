@@ -1,68 +1,39 @@
 ﻿@model JiraIssueBrowser.Models.IssueViewModel
 
 @section AddToHead{
-    <link href="@Url.Content("~/Content/test1.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/issue.css")" rel="stylesheet" type="text/css" />
 }     
 
 @{
     ViewBag.Title = "Issue";
 }
 
-<div style="width: 600px">
+
+
+<div class="issue">
+
 <h2>@Model.Summary</h2>
+
 <h3>Detaljer</h3>
+
 <table class="issue-details">
-<tr class="issue-details">
-<td>Rapporterat av:</td><td>@Model.ReportedBy</td>
-</tr>
-<tr class="issue-details">
-<td>Skapat:</td><td>@Model.Created</td>
-</tr>
-<tr class="issue-details">
-<td>Status:</td><td><img class="issue-status" src="@Model.Status.iconUrl" alt="@Model.Status.name" /> @Model.Status.name </td>
-</tr class="issue-details">
-<tr class="issue-details">
-<td>Prioritet:</td><td><img class="issue-priority" src="@Model.Priority.iconUrl" alt="@Model.Priority.name" /> @Model.Priority.name </td>
-</tr>
-<tr class="issue-details">
-<td>Etiketter:</td><td>
-@foreach (var label in Model.Labels)
-{
-    <span class="label">@label</span>
-}
-</td>
-</tr>
-<tr class="issue-details">
-<td>Komponenter:</td><td>
-@foreach (var component in Model.Components)
-{
-    <span class="component">@component.name</span>
-}
-</td>
-</tr>
-<tr class="issue-details">
-<td>Tidsåtgång:</td><td>@Model.TimeEstimate</td>
-
-</tr>
-<tr class="issue-details">
-<td>Levererad:</td><td>@Model.Solution</td> 
-
-</tr>
-<tr class="issue-details">
-<td>Länk till Jira:</td><td><a href="@Model.UrlToJira.AbsoluteUri">@Model.UrlToJira.AbsoluteUri</a></td>
-</tr>
-
+<tr><td class="issue-detail-label">Rapporterat av:</td><td>@Model.ReportedBy</td></tr>
+<tr><td class="issue-detail-label">Skapad:</td><td>@Model.Created</td></tr>
+<tr><td class="issue-detail-label">Status:</td><td><img src="@Model.Status.iconUrl" alt="@Model.Status.name" />@Model.Status.name</td></tr>
+<tr><td class="issue-detail-label">Prioritet:</td><td><img src="@Model.Priority.iconUrl" alt="@Model.Priority.name" />@Model.Priority.name</td></tr>
+<tr><td class="issue-detail-label">Etiketter:</td><td>@foreach (var label in Model.Labels) { <span class="label">@label</span> }</td></tr>
+<tr><td class="issue-detail-label">Tidsuppskattning:</td><td>@Model.TimeEstimate</td></tr>
+<tr><td class="issue-detail-label">Levererad:</td><td>@Model.Solution</td></tr>
 </table>
 
 <h3>Beskrivning</h3>
-@Html.Raw(Model.Description)
+@Model.Summary
 
 <h3>Kommentarer</h3>
 @foreach (var comment in Model.Comments)
 {
     <div class="comment">
-    @{ var posted = DateTime.Parse(comment.created); }
-    <div class="comment-head"><strong>@comment.author.displayName</strong> @posted.ToLongDateString() @posted.ToShortTimeString()</div>
+    <div class="comment-head"><strong>@comment.author.displayName</strong> @comment.created</div>
     <div class="comment-body">@comment.body</div>
     </div>
 }

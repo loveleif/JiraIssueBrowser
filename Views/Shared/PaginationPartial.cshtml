@@ -5,7 +5,7 @@
     <li class="@(Model.IsFirstPage() ? "disabled" : null)"><a href="#">«</a></li>
     @for (int page = 1; page <= Model.TotalPages; page++)
     {
-        <li class="@(Model.IsCurrentPage(page) ? "active" : string.Empty)">@Model.GenerateUrl(Html, page)</li>
+        <li class="@(Model.IsCurrentPage(page) ? "active" : string.Empty)"><a href="@Model.GenerateUrl(Url, page)">@page</a></li>
     }
     <li class="@(Model.IsLastPage() ? "disabled" : null)"><a href="#">»</a></li>
   </ul>

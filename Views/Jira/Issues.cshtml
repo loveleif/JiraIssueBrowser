@@ -9,30 +9,28 @@
 }
 
 
-<div class="box">
+<div class="filter-menu">
 @using (Html.BeginForm("Issues", "Jira", FormMethod.Get))
 {
-
-    <div>
-<div class="prio">
-@Html.ListBox("priority", Model.PriorityFilter)
-</div>
-
-<div class="status">
+<h1 class="menu">Filter</h1>
+<h2 class="menu">Status</h2>
 @Html.ListBox("status", Model.StatusFilter)
-</div>
-</div>
-<input class="knapp" type="submit" value="Filtrera" />
+
+<h2 class="menu">Priority</h2>
+@Html.ListBox("priority", Model.PriorityFilter)
+
+<h1 class="menu">Sortering</h1>
+<h2 class="menu">Sortera på</h2>
+
+<input type="submit" value="Submit" />
 }
+
+
 @using (Html.BeginForm("Issues", "Jira", FormMethod.Get))
 {
-    <input class="knapp" type="submit" value="Rensa" />
-    
+<input type="submit" value="Visa alla" />
 }
-
-
 </div>
-
 
 <div class="issues">
 <table class="issue-table">
@@ -48,7 +46,7 @@
         <span class="issue-priority" style="background-image: url(@issue.fields.priority.iconUrl);">@issue.fields.priority.name</span>
         </div>
 
-        <div class="issue-summary">@issue.fields.summary</div>
+        <div class="issue-summary">@Html.ActionLink(issue.fields.summary, "Issue", new { key = issue.key }, new { Class = "black"})</div>
 
         @* <div class="issue-description">@issue.fields.description</div> *@
     </td>
