@@ -1,5 +1,9 @@
 ﻿@model JiraIssueBrowser.Models.Page
 
+@section AddToHead{
+    <link href="@Url.Content("~/Content/pagination.css")" rel="stylesheet" type="text/css" />
+}
+
 <div class="pagination">
   <ul>
     <li class="@(Model.IsFirstPage() ? "disabled" : null)"><a href="#">«</a></li>

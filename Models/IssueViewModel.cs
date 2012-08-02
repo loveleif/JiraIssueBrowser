@@ -9,7 +9,14 @@ namespace JiraIssueBrowser.Models
 {
     public class IssueViewModel
     {
+        /// <summary>
+        /// The issue of this view model.
+        /// </summary>
         private Issue Issue { get; set; }
+
+        /// <summary>
+        /// The issue summary.
+        /// </summary>
         public string Summary
         {
             get
@@ -17,6 +24,10 @@ namespace JiraIssueBrowser.Models
                 return Issue.fields.summary;
             }
         }
+
+        /// <summary>
+        /// The issue reporter.
+        /// </summary>
         public string ReportedBy
         {
             get
@@ -24,6 +35,10 @@ namespace JiraIssueBrowser.Models
                 return Issue.fields.reporter.displayName == null ? string.Empty : Issue.fields.reporter.displayName;
             }
         }
+
+        /// <summary>
+        /// The issue creation date time.
+        /// </summary>
         public string Created
         {
             get
@@ -35,6 +50,10 @@ namespace JiraIssueBrowser.Models
                 return created.ToLongDateString() + " " + created.ToShortTimeString();
             }
         }
+
+        /// <summary>
+        /// The issue status.
+        /// </summary>
         public Status Status 
         {
             get
@@ -45,6 +64,10 @@ namespace JiraIssueBrowser.Models
                     return Issue.fields.status;
             }
         }
+
+        /// <summary>
+        /// The issue priority.
+        /// </summary>
         public Priority Priority
         {
             get
@@ -55,6 +78,10 @@ namespace JiraIssueBrowser.Models
                     return Issue.fields.priority;
             }
         }
+
+        /// <summary>
+        /// The issue labels. 
+        /// </summary>
         public List<string> Labels
         {
             get
@@ -62,6 +89,10 @@ namespace JiraIssueBrowser.Models
                 return Issue.fields.labels;
             }
         }
+
+        /// <summary>
+        /// The issue components.
+        /// </summary>
         public List<Component> Components
         { 
             get 
@@ -69,6 +100,10 @@ namespace JiraIssueBrowser.Models
                 return Issue.fields.components;
             }
         }
+
+        /// <summary>
+        /// The issue time estimate.
+        /// </summary>
         public string TimeEstimate 
         {
             get
@@ -79,6 +114,10 @@ namespace JiraIssueBrowser.Models
                     return (Issue.fields.timeestimate / 3600).ToString() + " timmar";
             }
         }
+
+        /// <summary>
+        /// The issue solution name and time.
+        /// </summary>
         public string Solution
         {
             get
@@ -93,6 +132,10 @@ namespace JiraIssueBrowser.Models
 
             }
         }
+
+        /// <summary>
+        /// Uri to issue in jira.
+        /// </summary>
         public Uri UrlToJira
         {
             get
@@ -101,6 +144,10 @@ namespace JiraIssueBrowser.Models
                 return new Uri(jiraUrl.GetLeftPart(UriPartial.Authority) + "/browse/" + Issue.key);
             }
         }
+
+        /// <summary>
+        /// The issue description.
+        /// </summary>
         public string Description
         {
             get
@@ -112,6 +159,9 @@ namespace JiraIssueBrowser.Models
             }
         }
 
+        /// <summary>
+        /// The issue comments.
+        /// </summary>
         public List<Comment> Comments
         {
             get
@@ -120,6 +170,10 @@ namespace JiraIssueBrowser.Models
             }
         }
 
+        /// <summary>
+        /// Constructs a new IssueViewModel.
+        /// </summary>
+        /// <param name="issue">issue to view</param>
         public IssueViewModel(Issue issue)
         {
             Issue = issue;

@@ -10,7 +10,6 @@ using JiraIssueBrowser.Controllers;
 
 namespace JiraIssueBrowser.Models
 {
-    // TODO: Valdiation
     public class NewIssueViewModel
     {
         [ScaffoldColumn(false)]
@@ -19,37 +18,40 @@ namespace JiraIssueBrowser.Models
         [ScaffoldColumn(false)]
         public SelectList PrioritySelectList { get; set; }
 
-        [Display(Name = "summary_label", ResourceType = typeof(Resources.strings))]
+        [Display(Name = "Sammanfattning")]
         [Required]
-        [StringLength(254, ErrorMessage = "The summary can't exceed 254 characters.")]
-        public string summary { get; set; }
+        [StringLength(254, ErrorMessage = "Sammanfattningen får inte överstiga 254 tecken.")]
+        public string Summary { get; set; }
 
-        [Display(Name = "description_label", ResourceType = typeof(Resources.strings))]
+        [Display(Name = "Beskrivning")]
         [Required]
         [DataType(DataType.MultilineText)]
         public string description { get; set; } 
 
-        [Display(Name = "client_reporter_label", ResourceType = typeof(Resources.strings))]
-        [StringLength(254, ErrorMessage = "The name can't exceed 254 characters.")]
+        [Display(Name = "Rapporterat av")]
+        [StringLength(254, ErrorMessage = "Namnet får inte överstiga 254 tecken.")]
         public string ClientReporter { get; set; }
 
-
-        [DisplayName("Issue type")]
-        [Required(ErrorMessage = "You must select a issue type")]
+        [DisplayName("Typ")]
+        [Required(ErrorMessage = "Ange en typ.")]
         [UIHint("DropDownList")]
         public string issueTypeId { get; set; }
 
-        [Display(Name = "priority_label", ResourceType = typeof(Resources.strings))]
-        [Required(ErrorMessage = "You must select a priority")]
+        [Display(Name = "Prioritet")]
+        [Required(ErrorMessage = "Ange en prioritet.")]
         [UIHint("DropDownList")]
         public string priorityId { get; set; }
 
-        [DisplayName("Labels")]
+        [Display(Name = "Etiketter")]
         public IEnumerable<string> labels { get; set; }
 
+        /// <summary>
+        /// Returns a new CreateIssue based on this view model.
+        /// </summary>
+        /// <returns>a new CreateIssue based on this view model</returns>
         public CreateIssue ToCreateIssue()
         {
-            var newIssue = new CreateIssue(Util.GetProjectKey(), summary, description, issueTypeId, priorityId, labels);
+            var newIssue = new CreateIssue(Util.GetProjectKey(), Summary, description, issueTypeId, priorityId, labels);
             newIssue.AddField(Util.GetClientReporterFieldName(), ClientReporter);
             return newIssue;
         }
