@@ -4,8 +4,10 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using System.Xml.Serialization;
 using AnotherJiraRestClient;
+using AnotherJiraRestClient.JiraModel;
 
 namespace JiraIssueBrowser.Controllers
 {
@@ -13,6 +15,10 @@ namespace JiraIssueBrowser.Controllers
     {
         public const string KEY_JIRA_ACCOUNT = "JiraAccount";
         public const string KEY_JIRA_CLIENT = "JiraClient";
+        public const string KEY_PRIORITY_FILTER = "PriorityFilter";
+        public const string KEY_STATUS_FILTER = "StatusFilter";
+        private const double PRIORITY_FILTER_EXPIRATION_HOURS = 6.0;
+        private const double STATUS_FILTER_EXPIRATION_HOURS = PRIORITY_FILTER_EXPIRATION_HOURS;
         private const string VIRTUAL_PATH_JIRA_ACCOUNT_XML = "~/App_Data/jira_account.xml";
         private const string APP_SETTING_PROJECT_KEY = "JiraProjectKey";
         private const string APP_SETTING_CLIENT_REPORTER_FIELD = "JiraClientReporterFieldName";
@@ -26,7 +32,8 @@ namespace JiraIssueBrowser.Controllers
         /// <param name="context">Context that contains the cache</param>
         /// <param name="server">Used to get absolute file path of the xml file</param>
         /// <returns>the JiraClient for this application</returns>
-        public static JiraClient GetJiraClient(HttpContextBase context, HttpServerUtilityBase server)
+        public static JiraClient GetCachedJiraClient(HttpContextBase context, HttpServerUtilityBase server)
+        //TODO: Convert to extension method?
         {
             return GetFromCache<JiraClient>(
                 KEY_JIRA_CLIENT,
@@ -36,6 +43,49 @@ namespace JiraIssueBrowser.Controllers
                 context);
         }
 
+        /// <summary>
+        /// Returns the possible priorities from cache. If the cache has not been set 
+        /// this method will load the values using the specified JiraClient.
+        /// </summary>
+        /// <param name="client">used to load priories if not already in cache</param>
+        /// <param name="context">Context that contains the cache</param>
+        /// <returns>cached priority values</returns>
+        public static List<Priority> GetCachedPriorities(JiraClient client, HttpContextBase context)
+        //TODO: Convert to extension method?
+        {
+            return GetFromCache<List<Priority>>(
+                KEY_PRIORITY_FILTER,
+                () => client.GetPriorities(),
+                PRIORITY_FILTER_EXPIRATION_HOURS,
+                context);
+        }
+
+        /// <summary>
+        /// Returns the possible statuses from cache. If the cache has not been set 
+        /// this method will load the values using the specified JiraClient.
+        /// </summary>
+        /// <param name="client">used to load statuses if not already in cache</param>
+        /// <param name="context">Context that contains the cache</param>
+        /// <returns>cached status values</returns>
+        public static List<Status> GetCachedStatuses(JiraClient client, HttpContextBase context)
+        //TODO: Convert to extension method?
+        {
+            return GetFromCache<List<Status>>(
+                KEY_STATUS_FILTER,
+                () => client.GetStatuses(),
+                STATUS_FILTER_EXPIRATION_HOURS,
+                context);
+        }
+
+        /// <summary>
+        /// Returns the value with the specified key from the cache contained in the specified context. If
+        /// the cache is not set a value will be inserted to the cache using loadData.
+        /// </summary>
+        /// <typeparam name="T">type of object to load</typeparam>
+        /// <param name="key">cache key</param>
+        /// <param name="loadData">method to load data if not in cache</param>
+        /// <param name="context">context within wich the cache is contained</param>
+        /// <returns>value from cache</returns>
         public static T GetFromCache<T>(string key, Func<T> loadData, HttpContextBase context)
         {
             T obj = (T)context.Cache.Get(key);
@@ -43,6 +93,28 @@ namespace JiraIssueBrowser.Controllers
             {
                 obj = loadData();
                 context.Cache.Insert(key, obj);
+            }
+            return obj;
+        }
+
+        /// <summary>
+        /// Returns the value with the specified key from the cache contained in the specified context. If
+        /// the cache is not set a value will be inserted to the cache using loadData and the specified number
+        /// of hours until expiration.
+        /// </summary>
+        /// <typeparam name="T">type of object to load</typeparam>
+        /// <param name="key">cache key</param>
+        /// <param name="loadData">method to load data if not in cache</param>
+        /// <param name="hoursToExpiration">hours until value expires in cache</param>
+        /// <param name="context">context within wich the cache is contained</param>
+        /// <returns>value from cache</returns>
+        public static T GetFromCache<T>(string key, Func<T> loadData, double hoursToExpiration, HttpContextBase context)
+        {
+            T obj = (T)context.Cache.Get(key);
+            if (obj == null)
+            {
+                obj = loadData();
+                context.Cache.Insert(key, obj, null, System.DateTime.UtcNow.AddHours(hoursToExpiration), System.Web.Caching.Cache.NoSlidingExpiration);
             }
             return obj;
         }

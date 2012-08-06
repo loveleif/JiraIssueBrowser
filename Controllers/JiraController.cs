@@ -23,7 +23,7 @@ namespace JiraIssueBrowser.Controllers
           get
           {
               if (_client == null)
-                  _client = Util.GetJiraClient(HttpContext, Server);
+                  _client = Util.GetCachedJiraClient(HttpContext, Server);
               return _client;
           }
         }
@@ -40,9 +40,11 @@ namespace JiraIssueBrowser.Controllers
             
             var model = new IssuesViewModel();
 
-            model.Issues = Client.GetIssuesByJql(
-                jql, (page - 1) * ISSUES_PER_PAGE, ISSUES_PER_PAGE, 
-                new string[] 
+            try
+            {
+                model.Issues = Client.GetIssuesByJql(
+                    jql, (page - 1) * ISSUES_PER_PAGE, ISSUES_PER_PAGE,
+                    new string[] 
                 { 
                     AnotherJiraRestClient.Issue.FIELD_SUMMARY, 
                     AnotherJiraRestClient.Issue.FIELD_STATUS, 
@@ -53,11 +55,14 @@ namespace JiraIssueBrowser.Controllers
                     AnotherJiraRestClient.Issue.FIELD_REPORTER
                 });
 
-            // TODO: Cache priorities
-            model.PriorityFilter = new MultiSelectList(Client.GetPriorities(), "id", "name", priority);
+                model.PriorityFilter = new MultiSelectList(Util.GetCachedPriorities(Client, HttpContext), "id", "name", priority);
 
-            // TODO: Cache statuses
-            model.StatusFilter = new MultiSelectList(Client.GetStatuses(), "id", "name");
+                model.StatusFilter = new MultiSelectList(Util.GetCachedStatuses(Client, HttpContext), "id", "name", status);
+            }
+            catch (JiraApiException ex)
+            {
+                throw new HttpException(503, "Tjänsten är inte tillgänglig, kunde inte nå Jira.");
+            }
 
             model.Page = new Page(
                 page,

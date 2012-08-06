@@ -41,7 +41,7 @@
     <tr class="@(odd ? "odd": "even")">
     <td>
         <div>
-        <span class="issue-created">@issue.fields.reporter.displayName, @Model.TestTime(issue) sedan</span>
+        <span class="issue-created">@issue.fields.reporter.displayName, @Model.TimePassedSinceCreated(issue) sedan</span>
         <span class="issue-status" style="background-image: url(@issue.fields.status.iconUrl);">@issue.fields.status.name</span>
         <span class="issue-priority" style="background-image: url(@issue.fields.priority.iconUrl);">@issue.fields.priority.name</span>
         </div>
