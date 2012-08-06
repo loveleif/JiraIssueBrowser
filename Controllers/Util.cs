@@ -11,7 +11,7 @@ using AnotherJiraRestClient.JiraModel;
 
 namespace JiraIssueBrowser.Controllers
 {
-    public class Util
+    public static class Util
     {
         public const string KEY_JIRA_ACCOUNT = "JiraAccount";
         public const string KEY_JIRA_CLIENT = "JiraClient";
@@ -23,24 +23,23 @@ namespace JiraIssueBrowser.Controllers
         private const string APP_SETTING_PROJECT_KEY = "JiraProjectKey";
         private const string APP_SETTING_CLIENT_REPORTER_FIELD = "JiraClientReporterFieldName";
 
+
         /// <summary>
         /// Returns the JiraClient for this application. The JiraClient
         /// is stored in cache. If the cache has not been set this method
         /// will load the JiraAccount by loading JiraAccount from xml and
         /// constructing a new JiraClient.
         /// </summary>
-        /// <param name="context">Context that contains the cache</param>
-        /// <param name="server">Used to get absolute file path of the xml file</param>
+        /// <param name="controller">controller used to get Context and Server</param>
         /// <returns>the JiraClient for this application</returns>
-        public static JiraClient GetCachedJiraClient(HttpContextBase context, HttpServerUtilityBase server)
-        //TODO: Convert to extension method?
+        public static JiraClient GetCachedJiraClient(this Controller controller)
         {
             return GetFromCache<JiraClient>(
                 KEY_JIRA_CLIENT,
                 () => new JiraClient(
                     GetJiraAccountFromXml(
-                    server.MapPath(VIRTUAL_PATH_JIRA_ACCOUNT_XML))),
-                context);
+                    controller.Server.MapPath(VIRTUAL_PATH_JIRA_ACCOUNT_XML))),
+                controller.HttpContext);
         }
 
         /// <summary>
@@ -50,8 +49,7 @@ namespace JiraIssueBrowser.Controllers
         /// <param name="client">used to load priories if not already in cache</param>
         /// <param name="context">Context that contains the cache</param>
         /// <returns>cached priority values</returns>
-        public static List<Priority> GetCachedPriorities(JiraClient client, HttpContextBase context)
-        //TODO: Convert to extension method?
+        public static List<Priority> GetCachedPriorities(this JiraClient client, HttpContextBase context)
         {
             return GetFromCache<List<Priority>>(
                 KEY_PRIORITY_FILTER,
@@ -67,7 +65,7 @@ namespace JiraIssueBrowser.Controllers
         /// <param name="client">used to load statuses if not already in cache</param>
         /// <param name="context">Context that contains the cache</param>
         /// <returns>cached status values</returns>
-        public static List<Status> GetCachedStatuses(JiraClient client, HttpContextBase context)
+        public static List<Status> GetCachedStatuses(this JiraClient client, HttpContextBase context)
         //TODO: Convert to extension method?
         {
             return GetFromCache<List<Status>>(

@@ -17,16 +17,7 @@ namespace JiraIssueBrowser.Controllers
     {
         public const int ISSUES_PER_PAGE = 10;
 
-        private JiraClient _client = null;
-        private JiraClient Client
-        { 
-          get
-          {
-              if (_client == null)
-                  _client = Util.GetCachedJiraClient(HttpContext, Server);
-              return _client;
-          }
-        }
+        public JiraClient Client { get { return this.GetCachedJiraClient(); } }
 
         //
         // GET: /jira/issues
@@ -55,9 +46,9 @@ namespace JiraIssueBrowser.Controllers
                     AnotherJiraRestClient.Issue.FIELD_REPORTER
                 });
 
-                model.PriorityFilter = new MultiSelectList(Util.GetCachedPriorities(Client, HttpContext), "id", "name", priority);
+                model.PriorityFilter = new MultiSelectList(Client.GetCachedPriorities(HttpContext), "id", "name", priority);
 
-                model.StatusFilter = new MultiSelectList(Util.GetCachedStatuses(Client, HttpContext), "id", "name", status);
+                model.StatusFilter = new MultiSelectList(Client.GetCachedStatuses(HttpContext), "id", "name", status);
             }
             catch (JiraApiException ex)
             {
@@ -129,7 +120,7 @@ namespace JiraIssueBrowser.Controllers
         public ActionResult Create()
         {
             var newIssue = new NewIssueViewModel();
-            newIssue.PrioritySelectList = new SelectList(Client.GetPriorities(), "id", "name");
+            newIssue.PrioritySelectList = new SelectList(Client.GetCachedPriorities(HttpContext), "id", "name");
             newIssue.IssueTypeSelectList = new SelectList(Client.GetProjectMeta(Util.GetProjectKey()).issuetypes, "id", "name");
             return View(newIssue);
         }
