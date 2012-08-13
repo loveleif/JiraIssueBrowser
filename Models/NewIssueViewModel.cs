@@ -26,7 +26,7 @@ namespace JiraIssueBrowser.Models
         [Display(Name = "Beskrivning")]
         [Required]
         [DataType(DataType.MultilineText)]
-        public string description { get; set; } 
+        public string Description { get; set; } 
 
         [Display(Name = "Rapporterat av")]
         [StringLength(254, ErrorMessage = "Namnet får inte överstiga 254 tecken.")]
@@ -51,7 +51,7 @@ namespace JiraIssueBrowser.Models
         /// <returns>a new CreateIssue based on this view model</returns>
         public CreateIssue ToCreateIssue()
         {
-            var newIssue = new CreateIssue(Util.GetProjectKey(), Summary, description, issueTypeId, priorityId, labels);
+            var newIssue = new CreateIssue(Util.GetProjectKey(), Summary, Description, issueTypeId, priorityId, labels);
             newIssue.AddField(Util.GetClientReporterFieldName(), ClientReporter);
             return newIssue;
         }

@@ -95,7 +95,11 @@ namespace JiraIssueBrowser.Controllers
         // GET: /jira/issues/{issue}
         public ActionResult Issue(string key)
         {
-            var issue = Client.GetIssue(key, new string[] { 
+
+            Issue issue;
+            try
+            {
+                issue = Client.GetIssue(key, new string[] { 
                 AnotherJiraRestClient.Issue.FIELD_SUMMARY,
                 AnotherJiraRestClient.Issue.FIELD_PROJECT,
                 AnotherJiraRestClient.Issue.FIELD_CREATED,
@@ -110,6 +114,11 @@ namespace JiraIssueBrowser.Controllers
                 AnotherJiraRestClient.Issue.FIELD_STATUS, 
                 AnotherJiraRestClient.Issue.FIELD_DESCRIPTION, 
                 AnotherJiraRestClient.Issue.FIELD_ASSIGNEE });
+            }
+            catch (JiraApiException)
+            {
+                throw new HttpException(503, "Tjänsten är inte tillgänglig, kunde inte nå Jira.");
+            }
             if (issue == null || issue.key != key || issue.fields.project.key != Util.GetProjectKey())
                 throw new HttpException(404, "Issue not found.");
             return View(new IssueViewModel(issue));
