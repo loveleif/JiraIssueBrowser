@@ -50,7 +50,7 @@ namespace JiraIssueBrowser.Controllers
 
                 model.StatusFilter = new MultiSelectList(Client.GetCachedStatuses(HttpContext), "id", "name", status);
             }
-            catch (JiraApiException ex)
+            catch (JiraApiException)
             {
                 throw new HttpException(503, "Tjänsten är inte tillgänglig, kunde inte nå Jira.");
             }
