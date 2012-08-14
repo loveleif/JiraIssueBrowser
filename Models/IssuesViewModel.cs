@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using AnotherJiraRestClient;
 using JiraIssueBrowser.Controllers;
+using AnotherJiraRestClient.JiraModel;
 
 namespace JiraIssueBrowser.Models
 {
@@ -16,15 +17,25 @@ namespace JiraIssueBrowser.Models
         public Issues Issues { get; set; }
 
         /// <summary>
-        /// Used to filter on issue priority.
+        /// Priorities availible for filtering.
         /// </summary>
-        public MultiSelectList PriorityFilter { get; set; }
+        public List<Priority> Priorities { get; set; }
 
         /// <summary>
-        /// Used i filter on issue status.
+        /// The filtered priorites (used to select filtered items in the filtering select list).
         /// </summary>
-        public MultiSelectList StatusFilter { get; set; }
-        
+        public int[] SelectedPriorities { get; set; }
+
+        /// <summary>
+        /// Statuses availible for filtering.
+        /// </summary>
+        public List<Status> Statuses { get; set; }
+
+        /// <summary>
+        /// The filtered statuses (used to select filtered items in the filtering select list).
+        /// </summary>
+        public int[] SelectedStatuses { get; set; }
+
         /// <summary>
         /// Used to sort.
         /// </summary>

@@ -45,15 +45,17 @@ namespace JiraIssueBrowser.Controllers
                     AnotherJiraRestClient.Issue.FIELD_CREATED,
                     AnotherJiraRestClient.Issue.FIELD_REPORTER
                 });
-
-                model.PriorityFilter = new MultiSelectList(Client.GetCachedPriorities(HttpContext), "id", "name", priority);
-
-                model.StatusFilter = new MultiSelectList(Client.GetCachedStatuses(HttpContext), "id", "name", status);
             }
             catch (JiraApiException)
             {
                 throw new HttpException(503, "Tjänsten är inte tillgänglig, kunde inte nå Jira.");
             }
+
+            model.Priorities = Client.GetCachedPriorities(HttpContext);
+            model.SelectedPriorities = priority;
+
+            model.Statuses = Client.GetCachedStatuses(HttpContext);
+            model.SelectedPriorities = status;
 
             model.Page = new Page(
                 page,

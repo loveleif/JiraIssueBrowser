@@ -14,10 +14,10 @@
 {
 <h1 class="menu">Filter</h1>
 <h2 class="menu">Status</h2>
-@Html.ListBox("status", Model.StatusFilter)
+@Html.ListBox("status", new MultiSelectList(Model.Statuses, "id", "name", Model.SelectedStatuses))
 
 <h2 class="menu">Priority</h2>
-@Html.ListBox("priority", Model.PriorityFilter)
+@Html.ListBox("priority", new MultiSelectList(Model.Priorities, "id", "name", Model.SelectedPriorities))
 
 <h1 class="menu">Sortering</h1>
 <h2 class="menu">Sortera på</h2>
