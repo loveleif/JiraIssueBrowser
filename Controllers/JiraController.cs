@@ -81,7 +81,7 @@ namespace JiraIssueBrowser.Controllers
 
             if (priority != null)
             {
-                href += "?";
+                href += "&";
                 href += string.Join("&", priority.Select(x => "priority=" + HttpUtility.UrlEncode(x.ToString())));
             }
             if (status != null)
