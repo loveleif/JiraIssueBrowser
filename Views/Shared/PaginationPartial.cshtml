@@ -6,11 +6,12 @@
 
 <div class="pagination">
   <ul>
-    <li class="@(Model.IsFirstPage() ? "disabled" : null)"><a href="#">«</a></li>
+    <li class="@(Model.IsFirstPage() ? "disabled" : null)"><a href="@Model.GenerateUrl(Url, Model.Previous)">«</a></li>
     @for (int page = 1; page <= Model.TotalPages; page++)
     {
-        <li class="@(Model.IsCurrentPage(page) ? "active" : string.Empty)"><a href="@Model.GenerateUrl(Url, page)">@page</a></li>
+        <li class="@(Model.IsCurrentPage(page) ? "active" : string.Empty)">
+        <a href="@Model.GenerateUrl(Url, page)">@page</a></li>
     }
-    <li class="@(Model.IsLastPage() ? "disabled" : null)"><a href="#">»</a></li>
+    <li class="@(Model.IsLastPage() ? "disabled" : null)"><a href="@Model.GenerateUrl(Url, Model.Next)">»</a></li>
   </ul>
 </div>

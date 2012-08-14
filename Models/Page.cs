@@ -81,5 +81,16 @@ namespace JiraIssueBrowser.Models
         {
             return _generateUrl(helper, pageNumber);
         }
+
+        public int Previous
+        {
+            get { return IsFirstPage() ? CurrentPage : CurrentPage - 1; }
+        }
+
+        public int Next
+        {
+            get { return IsLastPage() ? CurrentPage : CurrentPage + 1; }
+        }
+
     }
 }
